@@ -12,7 +12,9 @@ namespace ManageElectronicDevices
                 new SmartWatch("SW001", "Smartwatch 1", false, 50),
                 new SmartWatch("SW002", "Smartwatch 2", true, 11),
                 new PersonalComputer("P001", "LinuxPC", false, "Linux Mint"),
-                new PersonalComputer("P002", "ThinkPad T440", false, null)
+                new PersonalComputer("P002", "ThinkPad T440", false, "null"),
+                new EmbeddedDevice("ED001", "Embedded Device 1", false, "192.168.0.1", "MD Ltd. Network"),
+                new EmbeddedDevice("ED002", "Embedded Device 2", false, "256.256.256.256", "Other Network")
 
             };
 
@@ -31,6 +33,14 @@ namespace ManageElectronicDevices
                 catch (EmptySystemException exs)
                 {
                     Console.WriteLine(exs.Message);
+                }
+                catch (ArgumentException2 ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ConnectionException2 ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
             }
         }

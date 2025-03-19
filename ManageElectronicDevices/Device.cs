@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace ManageElectronicDevices;
 
 public abstract class Device
@@ -63,19 +65,19 @@ public class SmartWatch : Device, IPowerNotification
 
             if (_percentage < 20)
             {
-                NotifyPower(_percentage);
+                NotifyPower();
             }
         }
     }
 
-    public void NotifyPower(int percentage)
+    public void NotifyPower()
     {
         throw new Exception("This device " + Name + " need to be plugged in");
     }
 }
 public interface IPowerNotification
 {
-    void NotifyPower(int percentage);
+    void NotifyPower();
 }
 
 public class EmptyBatteryException : Exception
@@ -84,8 +86,8 @@ public class EmptyBatteryException : Exception
     {
     }
 }
-
-public class PersonalComputer : Device
+// -----------
+public class PersonalComputer : Device, NotifyEmptySystemException
 {
     public string OperationSystem { get; set; }
 
@@ -99,14 +101,20 @@ public class PersonalComputer : Device
     {
         if (string.IsNullOrEmpty(OperationSystem))
         {
-            NotifyEmptySystemException("This device " + Name + " need to have operation system");
+            NotifyEmptySystemException();
         }
         IsTurnedOn = true;
     }
-    public void NotifyEmptySystemException(string message)
+    public void NotifyEmptySystemException()
     {
         throw new Exception("This device " + Name + " need to have operation system");
     }
+}
+// I'm suppose that you mean to do that like that 
+// I hope that will not a huge mistake. That way to create a new exception was introduced in every device
+public interface NotifyEmptySystemException
+{
+    void NotifyEmptySystemException();
 }
 
 public class EmptySystemException : Exception
@@ -115,4 +123,65 @@ public class EmptySystemException : Exception
     {
     }
 }
+//--------------
+public class EmbeddedDevice : Device, ConnectionException, ArgumentException
+{
+    private string _ip;
+    private string _networkName;
+    public EmbeddedDevice(string id, string name, bool isTurnedOn, string ip, string networkName) : base(id, name, isTurnedOn)
+    {
+        _ip = ip;
+        _networkName = networkName;
+    }
+    public override void TurnOn()
+    {
+        if (!_networkName.Contains("MD Ltd."))
+        {
+            NotifyConnectionException();
+        }
+        IsTurnedOn = true;
+    }
+
+    public void CheckTheIP()
+    {
+        string pattern = @"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b";
+        if (Regex.IsMatch(_ip.ToString(), pattern))
+        {
+            ArgumentException();
+        }
+    }
+    public void NotifyConnectionException()
+    {
+        throw new Exception("This device " + Name + " need to use MD Ltd. network");
+    }
+    
+    public void ArgumentException()
+    {
+        throw new Exception("This device " + Name + " need to have correct IP address");
+    }
+    
+}
+// for network Md Ltd.
+public interface ConnectionException
+{
+    void NotifyConnectionException();
+}
+public class ConnectionException2 : Exception
+{
+    public ConnectionException2(string message) : base(message)
+    {
+    }
+}
+// for IP
+public interface ArgumentException
+{
+    void ArgumentException();
+}
+public class ArgumentException2 : Exception
+{
+    public ArgumentException2(string message) : base(message)
+    {
+    }
+}
+
 
