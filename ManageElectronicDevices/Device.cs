@@ -26,7 +26,7 @@ public class SmartWatch : Device, IPowerNotification
     private int _percentage;
     public SmartWatch(string id, string name, bool isTurnedOn, int percentage) : base(id, name, isTurnedOn)
     {
-        BatteryPercentage = percentage;
+         _percentage = percentage;
     }
 
     public override bool TurnOff()
@@ -42,7 +42,9 @@ public class SmartWatch : Device, IPowerNotification
             Console.WriteLine(_percentage + "- your percentage (subtract 10%)");
         }
         IsTurnedOn = true;
-        BatteryPercentage-= 10;
+        _percentage-= 10;
+        Console.WriteLine($"{_percentage} in the {Name}");
+        
     }
 
     public int BatteryPercentage
@@ -50,12 +52,13 @@ public class SmartWatch : Device, IPowerNotification
         get => _percentage;
         set
         {
+            Console.WriteLine($"{_percentage} - your percentage {Name} ");
             if (_percentage < 0 || _percentage > 100)
             {
                 throw new ArgumentOutOfRangeException("Battery percentage must be between 0 and 100");
             }
 
-            if (BatteryPercentage < 20)
+            if (_percentage < 20)
             {
                 NotifyPower(_percentage);
             }

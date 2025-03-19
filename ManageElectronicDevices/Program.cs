@@ -17,8 +17,9 @@ namespace ManageElectronicDevices
             {
                 try
                 {
+                    Console.WriteLine(device.Name);
                     device.TurnOn();
-                    Console.WriteLine($"{device.Name} is turned on.");
+                    Console.WriteLine($"{device.Name} is turned on." );
                 }
                 catch (EmptyBatteryException ex)
                 {
