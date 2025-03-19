@@ -16,8 +16,16 @@ public abstract class Device
      public Device()
      {
      }
-     public abstract bool TurnOff();
-     public abstract void TurnOn();
+     public virtual bool TurnOff()
+     {
+         IsTurnedOn = false;
+         return IsTurnedOn;
+     }
+
+     public virtual void TurnOn()
+     {
+         
+     }
     
 }
 
@@ -28,12 +36,7 @@ public class SmartWatch : Device, IPowerNotification
     {
          _percentage = percentage;
     }
-
-    public override bool TurnOff()
-    {
-        IsTurnedOn = false;
-        return IsTurnedOn;
-    }
+    
 
     public override void TurnOn()
     {
@@ -81,3 +84,35 @@ public class EmptyBatteryException : Exception
     {
     }
 }
+
+public class PersonalComputer : Device
+{
+    public string OperationSystem { get; set; }
+
+    public PersonalComputer(string id, string name, bool isTurnedOn, string operationSystem) : base(id, name, isTurnedOn)
+    {
+        OperationSystem = operationSystem;
+    }
+    
+
+    public override void TurnOn()
+    {
+        if (string.IsNullOrEmpty(OperationSystem))
+        {
+            NotifyEmptySystemException("This device " + Name + " need to have operation system");
+        }
+        IsTurnedOn = true;
+    }
+    public void NotifyEmptySystemException(string message)
+    {
+        throw new Exception("This device " + Name + " need to have operation system");
+    }
+}
+
+public class EmptySystemException : Exception
+{
+    public EmptySystemException(string message) : base(message)
+    {
+    }
+}
+
