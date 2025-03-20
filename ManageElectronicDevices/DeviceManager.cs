@@ -7,7 +7,6 @@ public class DeviceManager
 
     public DeviceManager(string filePath)
     {
-        Devices = new List<Device>();
         if (File.Exists(filePath))
         {
             var lines = File.ReadAllLines(filePath);
@@ -23,7 +22,7 @@ public class DeviceManager
                         {
                             Devices.Add(new SmartWatch(parts[0], parts[1], bool.Parse(parts[2]), int.Parse(parts[3])));
                         }
-                        else if (line.StartsWith("PC"))
+                        else if (line.StartsWith("P"))
                         {
                             Devices.Add(new PersonalComputer(parts[0], parts[1], bool.Parse(parts[2]), parts[3]));
                             

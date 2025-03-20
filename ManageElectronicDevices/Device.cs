@@ -164,10 +164,12 @@ public class EmbeddedDevice : Device, ConnectionException, ArgumentException
     }
     public void CheckTheIP()
     {
-        string pattern = @"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b";
-        if (Regex.IsMatch(_ip.ToString(), pattern))
+        string pattern =
+            @"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+
+        if (!Regex.IsMatch(_ip, pattern))
         {
-            ArgumentException();
+            throw new ArgumentException2("This device " + Name + " needs to have a correct IP address.");
         }
     }
     public void NotifyConnectionException()
