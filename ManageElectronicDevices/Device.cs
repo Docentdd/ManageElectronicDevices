@@ -38,7 +38,11 @@ public class SmartWatch : Device, IPowerNotification
     {
          _percentage = percentage;
     }
-    
+
+    public override string ToString()
+    {
+        return $"{Id} - {Name} - {IsTurnedOn} - {_percentage}";
+    }
 
     public override void TurnOn()
     {
@@ -70,6 +74,8 @@ public class SmartWatch : Device, IPowerNotification
         }
     }
 
+    public string BatteryLevel { get; set; }
+
     public void NotifyPower()
     {
         throw new Exception("This device " + Name + " need to be plugged in");
@@ -90,12 +96,17 @@ public class EmptyBatteryException : Exception
 public class PersonalComputer : Device, NotifyEmptySystemException
 {
     public string OperationSystem { get; set; }
+    public string OperatingSystem { get; set; }
 
     public PersonalComputer(string id, string name, bool isTurnedOn, string operationSystem) : base(id, name, isTurnedOn)
     {
         OperationSystem = operationSystem;
     }
-    
+
+    public override string ToString()
+    {
+        return $"{Id} - {Name} - {IsTurnedOn} - {OperationSystem}";
+    }
 
     public override void TurnOn()
     {
@@ -128,11 +139,17 @@ public class EmbeddedDevice : Device, ConnectionException, ArgumentException
 {
     private string _ip;
     private string _networkName;
-    public EmbeddedDevice(string id, string name, bool isTurnedOn, string ip, string networkName) : base(id, name, isTurnedOn)
+    public EmbeddedDevice(string id, string name, string ip, string networkName) : base(id, name, false)
     {
         _ip = ip;
         _networkName = networkName;
     }
+    
+
+    public string IpAddress { get; set; }
+    public string Network { get; set; }
+    
+
     public override void TurnOn()
     {
         if (!_networkName.Contains("MD Ltd."))
@@ -141,7 +158,10 @@ public class EmbeddedDevice : Device, ConnectionException, ArgumentException
         }
         IsTurnedOn = true;
     }
-
+    public override string ToString()
+    {
+        return $"{Id} - {Name} - {IsTurnedOn} - {_ip} - {_networkName}";
+    }
     public void CheckTheIP()
     {
         string pattern = @"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b";
