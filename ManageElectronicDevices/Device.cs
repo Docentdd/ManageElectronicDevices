@@ -139,7 +139,7 @@ public class EmbeddedDevice : Device, ConnectionException, ArgumentException
 {
     private string _ip;
     private string _networkName;
-    public EmbeddedDevice(string id, string name, string ip, string networkName) : base(id, name, false)
+    public EmbeddedDevice(string id, string name, bool b, string ip, string networkName) : base(id, name, false)
     {
         _ip = ip;
         _networkName = networkName;
@@ -171,6 +171,7 @@ public class EmbeddedDevice : Device, ConnectionException, ArgumentException
         {
             throw new ArgumentException2("This device " + Name + " needs to have a correct IP address.");
         }
+        _ip = IpAddress;
     }
     public void NotifyConnectionException()
     {

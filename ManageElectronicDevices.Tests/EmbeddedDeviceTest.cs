@@ -10,7 +10,7 @@ using ManageElectronicDevices;
             public void TestTurnOnWithValidNetwork()
             {
            
-                var device = new EmbeddedDevice("ED001", "Embedded Device 1", "192.168.0.1", "MD Ltd. Network");
+                var device = new EmbeddedDevice("ED001", "Embedded Device 1", true, "192.168.0.1", "MD Ltd. Network");
     
            
                 device.TurnOn();
@@ -24,7 +24,7 @@ using ManageElectronicDevices;
             public void TestTurnOnWithInvalidNetwork()
             {
              
-                var device = new EmbeddedDevice("ED002", "Embedded Device 2", "192.168.0.1", "Other Network");
+                var device = new EmbeddedDevice("ED002", "Embedded Device 2",false, "192.168.0.1", "Other Network");
     
     
                 device.TurnOn();
@@ -34,7 +34,7 @@ using ManageElectronicDevices;
             public void TestCheckTheIPWithInvalidIP()
             {
              
-                var device = new EmbeddedDevice("ED002", "Embedded Device 2", "256.256.256.256", "MD Ltd. Network");
+                var device = new EmbeddedDevice("ED002", "Embedded Device 2", true, "256.256.256.256", "MD Ltd. Network");
     
          
                 device.CheckTheIP();

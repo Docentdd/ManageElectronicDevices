@@ -29,7 +29,7 @@ public class DeviceManager
                         }
                         else if (line.StartsWith("ED"))
                         {
-                            Devices.Add(new EmbeddedDevice(parts[0], parts[1], parts[2], parts[3]));
+                            Devices.Add(new EmbeddedDevice(parts[0], parts[1], false, parts[2], parts[3]));
                         }
                     }
                 }
