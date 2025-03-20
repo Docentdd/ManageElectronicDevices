@@ -57,7 +57,12 @@ public class DeviceManager
         var index = Devices.FindIndex(d => d.Id == id);
         if (index != -1)
         {
+            if(Devices[index].GetType() == updatedDevice.GetType())
             Devices[index] = updatedDevice;
+        }
+        else
+        {
+            Console.WriteLine("You can't edit type of the device");
         }
     }
 
